@@ -412,6 +412,7 @@ def hashes():
             'Гораздо полезнее хранить хэши префиксов строки. Код на C++:\n'
             'vector <long long> getHash(const string& s, int p, long long mod) {\n'
             '\tvector<long long> ans(s.size());\n'
+            '\tans[0] = s[0];\n'
             '\tfor (size_t i = 1; i < s.size(); ++i) {\n'
             '\t\tans[i] = (ans[i - 1] * p + s[i]) % mod;\n'
             '\t}\n'
