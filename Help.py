@@ -13,7 +13,8 @@ def all():
 
 def no(a):
     global list_com
-    list_com = ['all', 'exit', '\n', 'binsearch', 'check_for_simplicity', 'factorial', 'eratosthenes_sieve', 'transfer_from_10_sys_to_a_sys',
+    # TODO: объединение словарей, 2 метода строк (3.9)
+    list_com = ['all', 'check_for_simplicity', 'eratosthenes_sieve', 'transfer_from_10_sys_to_a_sys',
                 'data_types', 'list', 'str', 'dict', 'tuple', 'transfer_from_a_sys_to_10_sys', 'numbers', 'set', 'equality_of_elements',
                 'shielded_sequences', 'str_format', 'files', 'bool', 'bytes', 'bytearray', 'exceptions', 'assignment',
                 'variables_names', 'NoneType', 'Print', 'If', 'While', 'For', 'iterators', 'list_generators', 'documentation',
@@ -23,18 +24,6 @@ def no(a):
         return False
     else:
         return True
-
-
-def binsearch():
-    return ('x = int(input())        # ввод загаданного числа\n'
-            'l, r = -1, 10 ** 9      # определение границ\n'
-            '   while l < r - 1:\n'
-            '       m = (l + r) // 2 # определение середины\n'
-            '       if m > x:        # если загаданное число больше, чем середина, то левая граница равна середине и наоборот\n'
-            '           r = m\n'
-            '       else:\n'
-            '           l = m\n'
-            'print(l)                # вывод числа')
 
 
 def check_for_simplicity():
@@ -51,14 +40,6 @@ def check_for_simplicity():
             '        print(\'NO\')                          # Проверка, встретился ли делитель, и вывод\n'
             '    else:\n'
             '        print(\'YES\')')
-
-
-def factorial():
-    return ('N = int(input())\n'
-            'f = 1\n'
-            'for i in range(1, n + 1):\n'
-            '    f *= i                 # Перемножение в цикле\n'
-            'print(f)')
 
 
 def eratosthenes_sieve():
@@ -88,7 +69,7 @@ def transfer_from_10_sys_to_a_sys():
 def data_types():
     return ('str\n'
             'Example: s = \'123Ab5s-o\'\n'
-            'P.s. \'123Ab5s-o\' == "123Ab5s-o"                                   # \' и " - это одно и то же\n'
+            'P.s. \'123Ab5s-o\' == "123Ab5s-o"   # \' и " - это одно и то же\n'
             'Строки - неизменяемый тип!\n'
             '\n'
             'int\n'
@@ -486,7 +467,7 @@ def set():
             '\n'
             'существует ещё один тип множеств - frozenset\n'
             'единственное отличие frozenset от set - frozenset является неизменяемым типом данных\n'
-            'frozenset поддерживает методы set, кроме всез методов с update, clear, add, remove, discard, pop\n')
+            'frozenset поддерживает методы set, кроме всех методов с update, clear, add, remove, discard, pop\n')
 
 
 def equality_of_elements():
@@ -546,7 +527,7 @@ def shielded_sequences():
             '\\xnn       # символ с шестнадцетиричным кодом nn\n'
             '\\nnn       # символ с восьмеричным кодом nnn\n'
             '\\0         # символ Null\n'
-            '\\N{id}     # идентификатор ID базы данных Юникода\n'
+            '\\N{id}     # идентификатор ID базы данных Юникода (получение символа по названию)\n'
             '\\unnnn     # 16-битный символ Юникода в шестнадцетеричном представлении (nnnn - код)\n'
             '\\Unnnnnnnn # 32-битный символ Юникода в шестнадцатеричном представлении (nnnnnnnn - код)\n'
             'в других строках с обратным слешем слеш сохраняется, строка не является экранированной последовательностью\n'
@@ -617,7 +598,7 @@ def str_format():
             'typecode   # тип объекта (то же самое, что у выражений форматирования, но здесь есть b (для двоичных чисел), нет i и u)\n'
             'Example: \'Print {[0]:-=+{}.2f}\'.format([4.444], 10) --> Print +-----4.44\n'
             'в аргументах format так же может быть словарь. Тогда в fieldname должен быть указан ключ словаря\n'
-            'также перед typecode можно поставить знак \',\'. Тогда в числе тройки чисел будут разбиваться запятой\n')
+            'также перед typecode можно поставить знак \',\'. Тогда в числе тройки цифр будут разбиваться запятой\n')
 
 
 def files():
@@ -1357,7 +1338,7 @@ def functions():
 def arguments():
     return ('Аргументы\n'
             '\n'
-            'Аргументы - это ссылки на объекты, котроые передаются в функции\n'
+            'Аргументы - это ссылки на объекты, которые передаются в функции\n'
             'Переменной в функции присваивается соответствующее значение аргумента\n'
             'аргументы, передаваемые в функцию, пишутся в скобках после имени функции\n'
             'Example:\n'
@@ -1512,7 +1493,11 @@ def recursion():
            '            sumtree(x)\n'
            '    return tot\n'
            'a = [1, [2, [3, 4], 5], 6, [7, 8]]\n'
-           'print(sumtree(a)) --> 36\n')
+           'print(sumtree(a)) --> 36\n'
+           '\n'
+           'Не следует применять рекурию там, где можно обойтись без неё, потому что может быть переполнение стэка.\n'
+           'Можно увеличить дно рекурсии\n'
+           'sys.setrecursionlimit(number) - number меньше, чем int в C\n')
 
 
 def lambda_functions():
@@ -1971,7 +1956,7 @@ def classes():
             'class AttrDisplay:\n'
             '    """\n'
             '    Реализует наследуемый метод перегрузки операции вывода, отображающий\n'
-            '    имена классов экземпляров и все атрибутыв виде пар имя+значение,\n'
+            '    имена классов экземпляров и все атрибуты в виде пар имя+значение,\n'
             '    имеющиеся в экземплярах (исключая атрибуты, унаследованных от классов).\n'
             '    Может добавляться в любые классы и способен работать с любыми\n'
             '    экземплярами.\n'
@@ -2013,3 +1998,15 @@ while a != 'exit':
         else:
             a += '()'
             print(eval(a))
+
+
+'''list_com = ['all', 'check_for_simplicity', 'eratosthenes_sieve', 'transfer_from_10_sys_to_a_sys',
+                'data_types', 'list', 'str', 'dict', 'tuple', 'transfer_from_a_sys_to_10_sys', 'numbers', 'set', 'equality_of_elements',
+                'shielded_sequences', 'str_format', 'files', 'bool', 'bytes', 'bytearray', 'exceptions', 'assignment',
+                'variables_names', 'NoneType', 'Print', 'If', 'While', 'For', 'iterators', 'list_generators', 'documentation',
+                'functions', 'arguments', 'recursion', 'lambda_functions', 'generators', 'modules', 'transitive_reload',
+                'classes', 'Range']
+for i in list_com:
+    print(colored(i, 'red'))
+    print(eval(i + '()'))
+    print('\n\n\n')'''
