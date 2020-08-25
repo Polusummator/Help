@@ -1184,10 +1184,51 @@ def graphs():
             '\n'
             'СНМ позволяет считать минимум, максимум, сумму и т.п. у нескольких множеств (нужно добавить код в unite)\n')
 
+
+def eratosthenes_sieve():
+    return ('N = int(input())                           # До какого числа мы ищем простые числа\n'
+            'isPrime = [True] * (N + 1)                 # Создание списка из True\n'
+            'Primes = []                                # Список, в котором будут простые числа\n'
+            'for d in range(2, N + 1):\n'
+            '    if isPrime[d]:\n'
+            '        Primes.append(d)\n'
+            '        for i in range(d ** 2, N + 1, 2): # Убираем лишние числа\n'
+            '            isPrime[i] = False\n'
+            'print(Primes)\n'
+            '\n'
+            'Алгоритм выше работает за O(n log log n)\n'
+            'Существует алгоритм решета, работающий за O(n):\n'
+            'vector<int> lp(N + 1, 0), pr;  // lp[i] - минимильный простой делитель числа i; pr - список простых чисел\n'
+            'for (int i = 2; i <= N; i++) {\n'
+            '    if (!lp[i]) {              // простое число или нет\n'
+            '        lp[i] = i;\n'
+            '        pr.push_back(i);\n'
+            '    }\n'
+            '    for (int j = 0; j < pr.size() && pr[j] * i <= N && pr[j] <= lp[i]; j++)\n'
+            '        lp[pr[j] * i] = pr[j];\n'
+            '}\n')
+
+
+def check_for_simplicity():
+    return ('z = False\n'
+            'x = int(input())\n'
+            'if x % 2 == 0 and x != 2:                    # Проверка, является ли число 2, и делится ли оно на два\n'
+            '    print(\'NO\')\n'
+            'else:\n'
+            '    for i in range(3, int(x ** 0.5) + 1, 2):\n'
+            '        if x % i == 0:\n'
+            '            z = True\n'
+            '            break                            # Если находится хотя бы один делитель, то число уже не является простым\n'
+            '    if z:\n'
+            '        print(\'NO\')\n'
+            '    else:\n'
+            '        print(\'YES\')')
+
+
 def no(a):
     global list_com
     list_com = ['all', 'date_time', 'combinations_enumeration', 'binsearch', 'two_pointers', 'testing', 'hashes', 'z_function',
-                'Manacher', 'segment_tree', 'sparse_table', 'bit_operations', 'f_Euler', 'quick_pow', 'graphs']
+                'Manacher', 'segment_tree', 'sparse_table', 'bit_operations', 'f_Euler', 'quick_pow', 'graphs', 'eratosthenes_sieve', 'check_for_simplicity']
     if a not in list_com:
         return False
     else:
