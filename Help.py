@@ -14,7 +14,7 @@ def all():
 def no(a):
     global list_com
     # TODO: объединение словарей, 2 метода строк (3.9)
-    list_com = ['all', 'check_for_simplicity', 'eratosthenes_sieve', 'transfer_from_10_sys_to_a_sys',
+    list_com = ['all', 'transfer_from_10_sys_to_a_sys',
                 'data_types', 'list', 'str', 'dict', 'tuple', 'transfer_from_a_sys_to_10_sys', 'numbers', 'set', 'equality_of_elements',
                 'shielded_sequences', 'str_format', 'files', 'bool', 'bytes', 'bytearray', 'exceptions', 'assignment',
                 'variables_names', 'NoneType', 'Print', 'If', 'While', 'For', 'iterators', 'list_generators', 'documentation',
@@ -24,34 +24,6 @@ def no(a):
         return False
     else:
         return True
-
-
-def check_for_simplicity():
-    return ('z = False\n'
-            'x = int(input())\n'
-            'if x % 2 == 0 and x != 2:                    # Проверка, является ли число 2, и делится ли оно на два\n'
-            '    print(\'NO\')\n'
-            'else:\n'
-            '    for i in range(3, int(x ** 0.5) + 1, 2): # Цикл от 3 до корня из числа с шагом 2\n'
-            '        if x % i == 0:\n'
-            '            z = True\n'
-            '            break                            # Если находится хотя бы один делитель, то число уже не является простым\n'
-            '    if z:\n'
-            '        print(\'NO\')                          # Проверка, встретился ли делитель, и вывод\n'
-            '    else:\n'
-            '        print(\'YES\')')
-
-
-def eratosthenes_sieve():
-    return ('N = int(input())                           # До какого числа мы ищем простые числа\n'
-            'isPrime = [True] * (N + 1)                 # Создание списка из True\n'
-            'Primes = []                                # Список, в котором будут простые числа\n'
-            'for d in range(2, N + 1):\n'
-            '    if isPrime[d]:\n'
-            '        Primes.append(d)\n'
-            '        for i in range(d ** 2, N + 1, 2): # Убираем лишние числа\n'
-            '            isPrime[i] = False\n'
-            'print(Primes)')
 
 
 def transfer_from_10_sys_to_a_sys():
@@ -2000,7 +1972,7 @@ while a != 'exit':
             print(eval(a))
 
 
-'''list_com = ['all', 'check_for_simplicity', 'eratosthenes_sieve', 'transfer_from_10_sys_to_a_sys',
+'''list_com = ['all', 'check_for_simplicity', 'transfer_from_10_sys_to_a_sys',
                 'data_types', 'list', 'str', 'dict', 'tuple', 'transfer_from_a_sys_to_10_sys', 'numbers', 'set', 'equality_of_elements',
                 'shielded_sequences', 'str_format', 'files', 'bool', 'bytes', 'bytearray', 'exceptions', 'assignment',
                 'variables_names', 'NoneType', 'Print', 'If', 'While', 'For', 'iterators', 'list_generators', 'documentation',
