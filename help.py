@@ -1182,7 +1182,9 @@ def graphs():
             'Сначала нужно постороить минимальное дерево, а потом в цикле убирать по одному (или больше, если нужно много деревьев) ребру из дерева и заменять его другим в списке рёбер\n'
             'В конце нужно проверять существование нового остовного дерева (написано выше)\n'
             '\n'
-            'СНМ позволяет считать минимум, максимум, сумму и т.п. у нескольких множеств (нужно добавить код в unite)\n')
+            'СНМ позволяет считать минимум, максимум, сумму и т.п. у нескольких множеств (нужно добавить код в unite)\n'
+            '\n'
+            'АЛГОРИТМ ДЕЙКСТРЫ см. раздел Dijkstra\n')
 
 
 def eratosthenes_sieve():
@@ -1412,10 +1414,85 @@ def suffix_automaton():
             '}\n')
 
 
+def Dijkstra():
+    return ('Алгоритм Дейкстры\n'
+            '\n'
+            'Алгоритм Дейкстры - это алгоритм поиска кратчайших путей от начальной вершины до всех остальных во взвешенном графе\n'
+            '\n'
+            'Описание:\n'
+            'Ответы для всех вершин будем хранить в массиве d\n'
+            'Сначала все элементы d заполнены INF (большое число), кроме стартовой (s), d[s] = 0\n'
+            'Каждую итерацию мы ищем непосещённую вершину с минимальным d[j] (v)\n'
+            'После этого мы пытаемся обновить ответы для всех смежных вершин (минимум из d[смежная_вершина] и d[v] + длина_ребра)\n'
+            '\n'
+            'Также можно восстановить пути до вершин\n'
+            'Для этого при обновлении ответов для смежных вершин будем присваивать p[смежная_вершина] = v\n'
+            'После нужно будет пройтись от конечной вершины по предкам до начальной и развернуть полученный путь\n'
+            '\n'
+            'Код:\n'
+            'll INF = 10000000000000;\n'
+            '// input\n'
+            'int n, s, t;\n'
+            'cin >> n >> s >> t;\n'
+            't--;\n'
+            's--;\n'
+            '\n'
+            '// graph\n'
+            'vector<vector<pair<int, ll>>> g(n);\n'
+            'll x;\n'
+            'for (int i = 0; i < n; i++)\n'
+            '    for (int j = 0; j < n; j++) {\n'
+            '        cin >> x;\n'
+            '        if (x > 0)\n'
+            '            g[i].push_back({j, x});\n'
+            '    }\n'
+            '\n'
+            '// algo\n'
+            'vector<ll> d(n, INF);\n'
+            'vector<int> p(n);\n'
+            'd[s] = 0;\n'
+            'vector<bool> used(n, false);\n'
+            'for (int i = 0; i < n; i++) {\n'
+            '    int v = -1;\n'
+            '    for (int j = 0; j < n; j++)\n'
+            '        if (!used[j] && (v == -1 || d[j] < d[v]))\n'
+            '            v = j;\n'
+            '    if (d[v] == INF)\n'
+            '        break;\n'
+            '    used[v] = true;\n'
+            '    for (auto & j : g[v]) {\n'
+            '        int to = j.first;\n'
+            '        ll len = j.second;\n'
+            '        if (d[v] + len < d[to]) {\n'
+            '            d[to] = d[v] + len;\n'
+            '            p[to] = v;\n'
+            '        }\n'
+            '    }\n'
+            '}\n'
+            '\n'
+            '// path\n'
+            'vector<int> path;\n'
+            'for (int v = t; v != s; v = p[v])\n'
+            '    path.push_back(v + 1);\n'
+            'path.push_back(s + 1);\n'
+            'reverse(path.begin(), path.end());\n'
+            '\n'
+            '// output\n'
+            'if (d[t] != INF) {\n'
+            '    cout << d[t] << el;\n'
+            '    printa(path);\n'
+            '}\n'
+            'else\n'
+            '    cout << -1 << el;\n'
+            'return 0;\n'
+            '\n'
+            'Прмечание: printa - вывод массива, ll - long long\n')
+
+
 def no(a):
     global list_com
     list_com = ['all', 'date_time', 'combinations_enumeration', 'binsearch', 'two_pointers', 'testing', 'hashes', 'z_function',
-                'Manacher', 'segment_tree', 'sparse_table', 'bit_operations', 'f_Euler', 'quick_pow', 'graphs', 'eratosthenes_sieve', 'check_for_simplicity', 'suffix_automaton']
+                'Manacher', 'segment_tree', 'sparse_table', 'bit_operations', 'f_Euler', 'quick_pow', 'graphs', 'eratosthenes_sieve', 'check_for_simplicity', 'suffix_automaton', 'Dijkstra']
     if a not in list_com:
         return False
     else:
