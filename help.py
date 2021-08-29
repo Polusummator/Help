@@ -1128,22 +1128,18 @@ def gcd_lcm():
 
 
 def LCS():
-    return ('// НОП (наибольшая общая подпоследовательность) с восстановлением ответа\n'
-            '#pragma GCC optimize("Ofast")\n'
-            '#include <bits/stdc++.h>\n'
-            'using namespace std;\n'
+    return ('Наибольшая общая подпоследовательность\n'
             '\n'
-            '#define ll long long\n'
-            '#define Yes cout << "Yes" << el\n'
-            '#define No cout << "No" << el\n'
-            '#define el \'\\n\'\n'
-            '#define fastIO ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL)\n'
-            '#define fileIO freopen("input.txt", "r", stdin);freopen("output.txt", "w", stdout)\n'
-            'template <class T1, class T2> istream& operator >>(istream& in, pair<T1, T2>& p) {in >> p.first >> p.second; return in;}\n'
-            'template <class T1, class T2> ostream& operator <<(ostream& out, const pair<T1, T2>& p) {out << p.first << \' \' << p.second << el; return out;}\n'
-            'template <class T> istream& operator >>(istream& in, vector<T>& arr) {for (T& i: arr) in >> i; return in;}\n'
-            'template <class T> ostream& operator <<(ostream& out, const vector<T>& arr) {for (const T& i: arr) out << i << \' \'; return out;}\n'
-            'template <class T> ostream& operator <<(ostream& out, const vector<vector<T>>& arr) {for (const vector<T>& i: arr) out << i << \' \' << el; return out;}\n'
+            'Заведём массив dp, где dp[i][j] - НОП для префикса i первой последовательности и префикса j второй последовательности\n'
+            'Будем идти по увеличению i и j\n'
+            '\n'
+            'Если a[i] == b[j], то можно взять ответ для префиксов i - 1, j - 1 и добавить этот новый элемент\n'
+            'Если a[i] != b[j], то dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])\n'
+            'Т.к. клетка (i, j) является максимумом из прямоугольника, нам не нужно искать максимум на всём прямоугольнике\n'
+            'Мы можем взять максимум из клеток (i - 1, j) и (i, j - 1), т.к. они покрывают весь прямоугольник\n'
+            '\n'
+            'Для восстановления ответа, нужно знать, откуда мы пришли\n'
+            'Функция get нужна для того, чтобы не писать if для обработки клеток на границе таблицы\n'
             '\n'
             'int get(int i, int j, const vector<vector<int>>& dp) {\n'
             '    if (i < 0 || j < 0)\n'
@@ -1152,8 +1148,6 @@ def LCS():
             '}\n'
             '\n'
             'signed main() {\n'
-            '    fastIO;\n'
-            '    // fileIO;\n'
             '    int n, m;\n'
             '    cin >> n;\n'
             '    vector<int> a(n);\n'
@@ -6064,6 +6058,121 @@ def ncr():
             'Однако если в задаче много запросов на нахождение кол-ва сочетаний, то это улучшит время\n')
 
 
+def Levenshtein():
+    return ('Расстояние Левенштейна\n'
+            '\n'
+            'Есть две строки\n'
+            'Мы хотим получить вторую из первой путём нескольких операций, потратив наименьшее число денег\n'
+            'Возможные операции:\n'
+            '1. Удалить символ на позиции i, заплатив delCost\n'
+            '2. Вставить символ на позицию i, заплатив addCost\n'
+            '3. Поменять символ на другой на позиции i, заплатив repCost\n'
+            '\n'
+            'Решение использует дп\n'
+            'Заведём массив dp, где dp[i][j] - ответ для префикса i первой строки и префикса j второй строки\n'
+            'i будет от 0 до n включительно, и j будет от 0 до m включительно, потому что мы должны считать ответ и для пустых строк\n'
+            '\n'
+            '           ┌ 0,                если i = j = 0\n'
+            '           | j * addCost,      если i = 0\n'
+            '           | i * delCost,      если j = 0\n'
+            'dp[i][j] = | dp[i - 1][j - 1], если a[i - 1] = b[j - 1]'
+            '           | min(dp[i - 1][j] + delCost,     - мы можем удалить новый символ\n'
+            '           |     dp[i][j - 1] + addCost,     - мы можем вставить новый символ\n'
+            '           └     dp[i - 1][j - 1] + repCost) - мы можем поменять символ\n'
+            '\n'
+            'string a, b;\n'
+            'cin >> a >> b;\n'
+            'int n = a.size();\n'
+            'int m = b.size();\n'
+            'int addCost, delCost, repCost;\n'
+            'cin >> addCost >> delCost >> repCost;\n'
+            'vector<vector<int>> dp(n + 1, vector<int>(m + 1));\n'
+            'for (int i = 0; i <= n; i++) {\n'
+            '    for (int j = 0; j <= m; j++) {\n'
+            '        if (i == 0 && j == 0) {\n'
+            '            continue;\n'
+            '        }\n'
+            '        if (i == 0) {\n'
+            '            dp[i][j] = j * addCost;\n'
+            '        }\n'
+            '        else if (j == 0) {\n'
+            '            dp[i][j] = i * delCost;\n'
+            '        }\n'
+            '        else if (a[i - 1] == b[i - 1]) {\n'
+            '            dp[i][j] = dp[i - 1][j - 1];\n'
+            '        }\n'
+            '        else {\n'
+            '            dp[i][j] = min({dp[i - 1][j] + delCost, dp[i][j - 1] + addCost, dp[i - 1][j - 1] + repCost});\n'
+            '        }\n'
+            '    }\n'
+            '}\n'
+            'cout << dp[n][m] << el;\n')
+
+
+def LCIS():
+    return ('Наибольшая общая возрастающая подпоследовательность\n'
+            '\n'
+            'Будет использовать дп\n'
+            '\n'
+            'Решение за O(n^4):\n'
+            'dp[i][j] - ответ для префикса i массива a, префикса j массива b, i и j входят в ответ\n'
+            'Если a[i] != b[j], то dp[i][j] = 0\n'
+            'Иначе перебираем все i1 до i и j1 до j\n'
+            'Если a[i1] < a[i] и a[i1] = b[j1], то обновляем dp[i][j] через dp[i1][j1] + 1\n'
+            '\n'
+            'Решение за O(n^3):\n'
+            'dp[i][j] - ответ для префикса i массива a, префикса j массива b, i входит в ответ\n'
+            'Если a[i] != b[j], то dp[i][j] = dp[i][j - 1]\n'
+            'Иначе dp[i][j] = max(dp[i1][j - 1]) + 1, если i1 < i и a[i1] < a[i]\n'
+            'Мы включаем j и перебираем i\n'
+            '\n'
+            'Решение за O(n^2):\n'
+            'dp[i][j] - ответ для префикса i массива a, префикса j массива b, j входит в ответ\n'
+            'Если a[i] != b[j], то dp[i][j] = dp[i - 1][j]\n'
+            'Иначе dp[i][j] = max(dp[i - 1][j1]) + 1, j1 < j и b[j1] < b[j]\n'
+            'При фиксированном i мы перебираем все возможные j1, но это не надо, т.к. для каждого i мы можем запомнить j1\n'
+            '\n'
+            'int get(int i, int j, const vector<vector<int>>& dp) {\n'
+            '    if (i < 0 || j < 0) {\n'
+            '        return 0;\n'
+            '    }\n'
+            '    return dp[i][j];\n'
+            '}\n'
+            '\n'
+            'signed main() {\n'
+            '    int n;\n'
+            '    cin >> n;\n'
+            '    vector<int> a(n);\n'
+            '    cin >> a;\n'
+            '    int m;\n'
+            '    cin >> m;\n'
+            '    vector<int> b(m);\n'
+            '    cin >> b;\n'
+            '    vector<vector<int>> dp(n, vector<int>(m));\n'
+            '    for (int i = 0; i < n; i++) {\n'
+            '        int j1 = -1;\n'
+            '        for (int j = 0; j < m; j++) {\n'
+            '            if (a[i] != b[j]) {\n'
+            '                dp[i][j] = get(i - 1, j, dp);\n'
+            '            }\n'
+            '            else {\n'
+            '                dp[i][j] = 1;\n'
+            '                if (j1 != -1) {\n'
+            '                    dp[i][j] = get(i - 1, j1, dp) + 1;\n'
+            '                }\n'
+            '            }\n'
+            '            if (b[j] < a[i] && get(i - 1, j, dp) > get(i - 1, j1, dp) {\n'
+            '                j1 = j;\n'
+            '            }\n'
+            '        }\n'
+            '    }\n'
+            '    cout << *max_element(dp[n - 1].begin(), dp[n - 1].end()) << el;\n'
+            '    return 0;\n'
+            '}\n'
+            '\n'
+            'Код может быть неверным\n')
+
+
 def no(a):
     global list_com
     global list_names
@@ -6119,8 +6228,9 @@ def no(a):
                 '\nДП:',
                 'LCS',
                 'LIS',
+                'LCIS',
                 'knapsack',
-                'Levenshtein', # no
+                'Levenshtein',
                 'dp_trees', # no
                 'dp_masks', # no
                 'cht_opt', # no
@@ -6203,7 +6313,7 @@ while a != 'exit':
 # COMPLETE 90% (не написал рюкзак на отрезке) 7) Приколы с рюкзаком
 # TODO: 8) Дп по подмножествам и по поддеревьям (примеры: гамильтонов путь, максимальное паросочетание в дереве, минимальное покрытие...)
 # TODO: 9) Convex Hull Trick, матричная оптимизация
-# TODO: 10) Расстояние Левенштейна (со стоимостями)
+# COMPLETE 10) Расстояние Левенштейна (со стоимостями)
 # COMPLETE 11) MITM
 # COMPLETE 12) МОСТЫ ПЕРЕДЕЛАТЬ!!!!! + точки сочленения, компоненты вершинной двусвязности
 # COMPLETE 13) 2-SAT
