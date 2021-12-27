@@ -4364,6 +4364,7 @@ def maxmatch():
             '            int w = p.second;\n'
             '            if (get_bit(mask, u)) {\n'
             '                int nmask = bit_to0(mask, u);\n'
+            '                nmask = bit_to0(nmask, v);\n'
             '                if (dp[nmask] != -1) {\n'
             '                    dp[mask] = max(dp[mask], dp[nmask] + w);\n'
             '                    ans = max(ans, dp[mask]);\n'
