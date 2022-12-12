@@ -822,7 +822,7 @@ def z_function():
             'int l = 0, r = 1;\n'
             'for (int i = 1; i < n; i++) {\n'
             '    z[i] = max(0, min(z[i - l], r - i));\n'
-            '    while (s[z[i]] == s[z[i] + i]) {\n'
+            '    while (z[i] + i < n && s[z[i]] == s[z[i] + i]) {\n'
             '        z[i]++;\n'
             '    }\n'
             '    if (z[i] + i > r) {\n'
