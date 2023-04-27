@@ -4973,6 +4973,7 @@ def top_sort():
             '            dfs_ts(u);\n'
             '    }\n'
             '    ts.push_back(v);\n'
+            '}\n'
             '\n'
             'void top_sort() {\n'
             '    used.assign(n, false);\n'
@@ -4980,6 +4981,7 @@ def top_sort():
             '        if (!used[v])\n'
             '            dfs_ts(v);\n'
             '    reverse(ts.begin(), ts.end());\n'
+            '}\n'
             '\n'
             'Также для топологической сортировки существует алгоритм Кана\n'
             'Его идея заключается в том, что на каждом шаге мы точно можем добавить в сортировку вершину с входящей степенью 0\n'
@@ -6029,7 +6031,9 @@ def Ford_Bellman():
             '    }\n'
             '    used[v] = true;\n'
             '    for (int u: g[v]) {\n'
-            '        dfs(u, used, g, d, old, reach);\n'
+            '        if (!used[u]) {\n'
+            '            dfs(u, used, g, d, old, reach);\n'
+            '        }\n'
             '    }\n'
             '}\n')
 
